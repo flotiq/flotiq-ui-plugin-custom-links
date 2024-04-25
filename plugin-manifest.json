@@ -1,0 +1,21 @@
+{
+  "id": "flotiq.custom-links",
+  "name": "Custom Links",
+  "version": "1.0.0",
+  "description": "This plugin allows to create custom links in each entity view.",
+  "repository": "https://github.com/flotiq/flotiq-ui-plugins-custom-links",
+  "url": "https://localhost:3053/index.js",
+  "permissions": [
+    {
+      "ctdName": "_plugin_settings",
+      "canRead": true,
+      "canUpdate": true,
+      "type": "CO"
+    },
+    {
+      "ctdName": "*",
+      "canRead": true,
+      "type": "CTD"
+    }
+  ]
+}

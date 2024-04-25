@@ -1,0 +1,56 @@
+.plugin-custom-links .link-button {
+  all: unset;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  line-height: 1;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #141046;
+  background-color: transparent;
+  height: 2.5rem;
+  border: 2px solid #0083fc;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  max-width: 100%;
+}
+
+.mode-dark .plugin-custom-links .link-button,
+.mode-dark .plugin-custom-links .link-button:active,
+.mode-dark .plugin-custom-links .link-button:focus {
+  color: white;
+}
+
+.plugin-custom-links .link-button:hover {
+  background-color: #0083fc;
+  color: white;
+}
+
+.plugin-custom-links .link-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  text-decoration: none;
+}
+
+.plugin-custom-links .link-button:hover,
+.plugin-custom-links .link-button:active {
+  text-decoration: none;
+}
+
+.plugin-custom-links .link-button > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.5;
+  pointer-events: none;
+}
