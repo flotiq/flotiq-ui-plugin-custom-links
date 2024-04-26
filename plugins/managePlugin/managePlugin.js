@@ -13,7 +13,7 @@ export const handleManagePlugin = (
 
   const ctds = (contentTypes || [])
     .filter((ctd) => !ctd.internal || ctd.name === '_media')
-    .map(({ name }) => name);
+    .map(({ name, label }) => ({ value: name, label }));
 
   const language = getLanguage();
   if (language !== i18n.language) {
@@ -80,10 +80,11 @@ export const handleManagePlugin = (
               content_types: {
                 label: i18n.t('ContentTypes'),
                 unique: false,
-                options: ctds,
                 helpText: '',
                 inputType: 'select',
                 isMultiple: true,
+                useOptionsWithLabels: true,
+                optionsWithLabels: ctds,
               },
               link_template: {
                 label: i18n.t('LinkTemplate'),
