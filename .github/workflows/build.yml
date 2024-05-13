@@ -7,6 +7,7 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
 
 jobs:
   build-release: 
@@ -19,22 +20,23 @@ jobs:
         node-version: 18.x
     - run: yarn
     - run: yarn build
-    - name: After script
-      id: afterscript
+    - name: Create tar from built plugin
       run: | 
-        ls -la
         BUILDFOLDER="dist"
         MANIFEST=$(find ./$BUILDFOLDER -name plugin-manifest.json)
         [ -z $MANIFEST ] && cp plugin-manifest $BUILDFOLDER
-
-
         MANIFEST="$BUILDFOLDER/plugin-manifest.json"
-        VERSION=$(jq '.version' $MANIFEST | tr -d '"')
+        VERSION=$(jq '.version' $MANIFEST -r)
         echo "version=$VERSION"
         mkdir -p output
         tar -C $BUILDFOLDER -czf output/$VERSION.tar.gz .
         ls -la output
         echo "version=$VERSION" >> $GITHUB_ENV
+    - name: Create artifact 
+      uses: actions/upload-artifact@v4
+      with:
+          name: plugin-package
+          path: output
     - name: Release built plugin
       uses: svenstaro/upload-release-action@v2
       with:
@@ -43,3 +45,4 @@ jobs:
         tag: ${{ env.version }}
         overwrite: true
         file_glob: true
+      if: github.ref == 'refs/heads/main'
