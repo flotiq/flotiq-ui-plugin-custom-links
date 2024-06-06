@@ -16,7 +16,7 @@ To manage a plugin, you must first add it to your plugins. Click the "+" icon to
 
 <img src=".docs/images/custom_link_settings.png" alt="plugin-settings" width="700"/>
 
-Fields description: 
+Field descriptions: 
 
 * `URL Template` - It's a place to enter the link template, e.g. https://my-blog/post/{slug}, where slug is the name of the content field of the type selected below. Instead of {slug}, you can use any field of a given content type, it is also possible to use nesting, e.g. {internal.createdAt}. However, the use of list-type fields is not supported.
 * `Displayed Name Template` - Any name that will be displayed on the link button.
