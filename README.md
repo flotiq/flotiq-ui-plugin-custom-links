@@ -1,6 +1,28 @@
 [[_TOC_]]
 
-# Custom Links Plugin
+# About plugin
+
+This plugin will display a button with a link in the content edit object. The link will be supplemented with data from the currently edited object. Thanks to this link, you will be able to easily access the preview of where the content will be used.
+
+## Plugin outcome
+
+In the sidebar of the Content Object form, you will see a panel with the configured link button. The button will not be visible when adding a new object.
+
+<img src=".docs/images/custom_link_plugin.png" alt="plugin-item" width="1000"/>
+
+## Configuring plugin
+
+To manage a plugin, you must first add it to your plugins. Click the "+" icon to add the plugin to your library and click the "Manage" button. It will open the plugin settings.
+
+<img src=".docs/images/custom_link_settings.png" alt="plugin-settings" width="700"/>
+
+Fields description: 
+
+* `URL Template` - It's a place to enter the link template, e.g. https://my-blog/post/{slug}, where slug is the name of the content field of the type selected below. Instead of {slug}, you can use any field of a given content type, it is also possible to use nesting, e.g. {internal.createdAt}. However, the use of list-type fields is not supported.
+* `Displayed Name Template` - Any name that will be displayed on the link button.
+* `Content Type Definition` - Select the content type to display the button only for the specified content type. If the content type is not selected, the button will be shown when editing each content object.
+
+# Development
 
 ## Quick start
 
