@@ -19,7 +19,7 @@ To manage a plugin, you must first add it to your plugins. Click the "+" icon to
 Field descriptions: 
 
 * `URL Template` - It's a place to enter the link template, e.g. https://my-blog/post/{slug}, where `slug` is the name of the content field of the type selected below. Instead of `{slug}`, you can use any field of a given content type, it is also possible to use nesting, e.g. `{internal.createdAt}`. You can also use list fields: `{addresses[0].city}`.
-* `Displayed Name Template` - Any name that will be displayed on the link button.
+* `Displayed Name Template` - Any name that will be displayed on the link button. You can also use content object fields (e.g. `{slug}`), in the same way as with Url Template.
 * `Content Type Definition` - Select the content type to display the button only for the specified content type. If the content type is not selected, the button will be shown when editing each content object.
 
 # Development
