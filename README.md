@@ -1,5 +1,3 @@
-[[_TOC_]]
-
 # About plugin
 
 This plugin will display a button with a link in the content edit object. The link will be supplemented with data from the currently edited object. Thanks to this link, you will be able to easily access the preview of where the content will be used.
