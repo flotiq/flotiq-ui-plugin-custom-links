@@ -26,4 +26,4 @@ jobs:
       - uses: flotiq/check-changelog-and-version@v1.1.1
         with:
           changelog_file: CHANGELOG.md
-          version_file: src/plugin-manifest.json
+          version_file: plugin-manifest.json
