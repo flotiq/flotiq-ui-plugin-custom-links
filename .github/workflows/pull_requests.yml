@@ -1,0 +1,71 @@
+name: Build & Deploy to Minio
+
+permissions:
+  contents: write
+
+on:
+  pull_request:
+
+jobs:
+  build-minio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - run: yarn
+      - run: yarn build
+      - name: Create tar from built plugin
+        run: |
+          BUILDFOLDER="dist"
+          MANIFEST=$(find ./$BUILDFOLDER -name plugin-manifest.json)
+          [ -z $MANIFEST ] && cp plugin-manifest $BUILDFOLDER
+          MANIFEST="$BUILDFOLDER/plugin-manifest.json"
+          VERSION=$(jq '.version' $MANIFEST -r)
+          URL=$(jq '.url' $MANIFEST -r)
+          echo "version=$VERSION"
+          mkdir -p output
+          tar -C $BUILDFOLDER -czf output/$VERSION.tar.gz .
+          ls -la output
+          echo "version=$VERSION" >> $GITHUB_ENV
+          REPO_NAME="$(basename $GITHUB_REPOSITORY)"
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          ENTRYPOINT_NAME=$(basename $URL)
+          ENTRYPOINT_PATH=$(find ./$BUILDFOLDER -name $ENTRYPOINT_NAME | sed "s|^./$BUILDFOLDER/||")
+          UPLOAD_URL="$MINIO_URL/flotiq-plugins-dev/$REPO_NAME/$GITHUB_HEAD_REF/$ENTRYPOINT_PATH"
+          echo $UPLOAD_URL
+          tmp=$(mktemp)
+          jq --arg upload_url "$UPLOAD_URL" '.url = $upload_url' $MANIFEST > "$tmp" && mv "$tmp" $MANIFEST
+        env:
+          MINIO_URL: ${{ secrets.MINIO_ENDPOINT }}
+      - name: Minio Deploy
+        uses: lovellfelix/minio-deploy-action@v1
+        with:
+          endpoint: ${{ secrets.MINIO_ENDPOINT }}
+          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
+          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
+          bucket: 'flotiq-plugins-dev'
+          # Optional inputs with their defaults:
+          source_dir: 'dist'
+          target_dir: '/${{ env.REPO_NAME }}/${{ github.head_ref }}/'
+      - name: Create artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-package
+          path: output/${{ env.version }}.tar.gz
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Approve a PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
