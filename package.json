@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
-    "i18next": "^23.10.1",
+    "i18next": "^24.2.3",
     "esbuild-plugin-copy": "^2.1.1"
   }
 }
