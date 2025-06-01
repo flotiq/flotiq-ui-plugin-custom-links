@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.26.8",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.5",
     "esbuild-plugin-eslint": "^0.3.12",
     "esbuild-plugin-inline-import": "^1.1.0",
     "eslint": "^8.57.1",
