@@ -15,16 +15,19 @@ const loadStyles = () => {
   }
 };
 
-registerFn(pluginInfo, (handler, _client, { getLanguage }) => {
-  loadStyles();
+registerFn(
+  pluginInfo,
+  (handler, _client, { getLanguage, getPluginSettings }) => {
+    loadStyles();
 
-  handler.on('flotiq.plugins.manage::form-schema', (data) =>
-    handleManagePlugin(data, pluginInfo, getLanguage),
-  );
-  handler.on('flotiq.form.sidebar-panel::add', (data) =>
-    handlePanelPlugin(data, pluginInfo),
-  );
-});
+    handler.on('flotiq.plugins.manage::form-schema', (data) =>
+      handleManagePlugin(data, pluginInfo, getLanguage),
+    );
+    handler.on('flotiq.form.sidebar-panel::add', (data) =>
+      handlePanelPlugin(data, pluginInfo, getPluginSettings),
+    );
+  },
+);
 
 const pluginManagePreviewRoot = document.getElementById('manage-preview-root');
 const pluginPanelPreviewRoot = document.getElementById('panel-preview-root');
