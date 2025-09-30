@@ -1,7 +1,7 @@
 import {
   addElementToCache,
   getCachedElement,
-  deepReadKeyValue
+  deepReadKeyValue,
 } from '../../common/plugin-helpers';
 
 const onClick = (e) => {
@@ -11,23 +11,21 @@ const onClick = (e) => {
 };
 
 export const handlePanelPlugin = (
-  { contentType, contentObject, duplicate, create, userPlugins },
+  { contentType, contentObject, duplicate, create },
   pluginInfo,
+  getPluginSettings,
 ) => {
-  const customLinksSettings = userPlugins?.find(
-    ({ id }) => id === pluginInfo.id,
-  )?.settings;
-
+  const pluginSettings = getPluginSettings();
   if (
     !contentObject ||
     !contentType?.name ||
     create ||
     duplicate ||
-    !customLinksSettings
+    !pluginSettings
   )
     return null;
 
-  const settingsForCtd = JSON.parse(customLinksSettings)?.settings?.filter(
+  const settingsForCtd = JSON.parse(pluginSettings)?.settings?.filter(
     (plugin) =>
       plugin.content_types.length === 0 ||
       plugin.content_types.find((ctd) => ctd === contentType.name),
@@ -93,16 +91,11 @@ export const loadPanelPlugin = (pluginPanelPreviewRoot) => {
         contentObject: { id: 'id', name: 'co name' },
         duplicate: false,
         create: false,
-        userPlugins: [
-          {
-            id: 'plugin-id',
-            settings:
-              // eslint-disable-next-line max-len
-              '{"settings":[{"url_template":"example.com","link_template":"Link","content_types":[]}, {"url_template":"example.com","link_template":"Link to {name}","content_types":[]}]}',
-          },
-        ],
       },
       { id: 'plugin-id' },
+      () =>
+        // eslint-disable-next-line max-len
+        '{"settings":[{"url_template":"example.com","link_template":"Link","content_types":[]}, {"url_template":"example.com","link_template":"Link to {name}","content_types":[]}]}',
     );
 
     element.style.border = '1px solid #DAE3F2';
