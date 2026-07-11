@@ -7,7 +7,7 @@
     "start": "node esbuild.config.js --watch"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.26.8",
+    "@babel/eslint-parser": "^7.28.4",
     "esbuild": "^0.25.1",
     "esbuild-plugin-eslint": "^0.3.12",
     "esbuild-plugin-inline-import": "^1.1.0",
